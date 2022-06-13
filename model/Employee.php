@@ -16,12 +16,12 @@
 			return $this->$atribute;
 		}
         public function getEmployees(){
-            $sql = "SELECT name, category FROM Employee;";
+            $sql = "SELECT id,name, category FROM Employee;";
             $registeredEmployees = $this->con->getQueryResult($sql);
             return $registeredEmployees;
         }
         public function addEmployee(){
-            $sql = "INSERT Employee(name,Category) VALUES ('{$this->name}','{$this->category}')";
+            $sql = "INSERT Employee(name,category) VALUES ('{$this->name}','{$this->category}')";
             $this->con->simpleQuery($sql);
         }
         public function deleteEmployee(){
@@ -30,11 +30,16 @@
         }
 
         public function view(){
-			$sql = "SELECT name, category FROM Employee
-					WHERE t1.id = '{$this->id}';";
-			$datos = $this->con->getQueryResult($sql);
-			$row = mysqli_fetch_assoc($datos);
+			$sql = "SELECT id, name, category FROM Employee
+					WHERE id = '{$this->id}';";
+			$response = $this->con->getQueryResult($sql);
+			$row = mysqli_fetch_assoc($response);
 			return $row;
+		}
+
+        public function edit(){
+			$sql = "UPDATE Employee SET name = '{$this->name}', category = '{$this->category}' WHERE id = '{$this->id}';";
+			$this->con->simpleQuery($sql);
 		}
     }
 ?>

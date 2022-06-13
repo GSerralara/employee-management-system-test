@@ -8,6 +8,13 @@
         {
             $this->con = new Connector();
         }
+        public function set($atribute, $content){
+			$this->$atribute = $content;
+		}
+
+		public function get($atribute){
+			return $this->$atribute;
+		}
         public function getEmployees(){
             $sql = "SELECT name, category FROM Employee;";
             $registeredEmployees = $this->con->getQueryResult($sql);
@@ -21,5 +28,13 @@
             $sql = "DELETE FROM Employee WHERE id = '{$this->id}'";
             $this->con->simpleQuery($sql);
         }
+
+        public function view(){
+			$sql = "SELECT name, category FROM Employee
+					WHERE t1.id = '{$this->id}';";
+			$datos = $this->con->getQueryResult($sql);
+			$row = mysqli_fetch_assoc($datos);
+			return $row;
+		}
     }
 ?>

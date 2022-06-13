@@ -1,12 +1,25 @@
 create database uplay;
 use uplay;
-create table if not exists Employee(
+create table if not exists Category(
 	ID BIGINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(255),
 	category VARCHAR(255),
     PRIMARY KEY (ID)
 );
 
-INSERT Employee(name,Category) VALUES ("James", "Category_Admin");
-INSERT Employee(name,Category) VALUES ("Michael","Category_Lead");
-INSERT Employee(name,Category) VALUES ("Antoine","Category_Junior");
+create table if not exists Employee(
+	ID BIGINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255),
+	category BIGINT,
+    PRIMARY KEY (ID),
+    FOREIGN KEY (category) REFERENCES Category(ID)
+);
+
+INSERT Category(category) VALUES ("Category_Admin");
+INSERT Category(category) VALUES ("Category_Manager");
+INSERT Category(category) VALUES ("Category_Lead");
+INSERT Category(category) VALUES ("Category_Senior");
+INSERT Category(category) VALUES ("Category_Junior");
+
+INSERT INTO Employee(name,Category) (SELECT "James", id FROM Category WHERE category LIKE "Category_Admin");
+INSERT INTO Employee(name,Category) (SELECT "Michael",id FROM Category WHERE category LIKE "Category_Lead");
+INSERT INTO Employee(name,Category) (SELECT "Antoine", id FROM Category WHERE category LIKE"Category_Junior");
